@@ -126,6 +126,8 @@ p{margin:0 0 .9rem}
 .pair.flipped{animation:flip .5s ease-out}
 @keyframes flip{from{transform:scaleX(-1)}to{transform:scaleX(1)}}
 .hit{cursor:crosshair}
+.dl{font:700 17px "Shantell Sans",sans-serif;fill:var(--ink)}
+.ds{font:400 13.5px "Atkinson Hyperlegible",sans-serif;fill:var(--ink2)}
 .pop{animation:pop .35s ease-out}
 @keyframes pop{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
 
@@ -214,6 +216,7 @@ footer{margin:4rem 0 2.5rem;padding-top:1.5rem;border-top:2px dashed var(--line)
         <li><a href="#segregation">Segregation</a></li>
         <li><a href="#assortment">Independent assortment</a></li>
         <li><a href="#crossing">Crossing over</a></li>
+        <li><a href="#together">Putting it together</a></li>
         <li><a href="#quiz">Quiz</a></li>
       </ul>
     </div>
@@ -383,6 +386,18 @@ footer{margin:4rem 0 2.5rem;padding-top:1.5rem;border-top:2px dashed var(--line)
           <p class="fb" id="simFb" style="font-weight:400;color:var(--ink)"></p>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- PUTTING IT TOGETHER -->
+  <section class="sec pk" id="together">
+    <h2>Putting it all together</h2>
+    <p class="measure">Follow one cell with two pairs of homologous chromosomes. Crossing over, independent assortment and segregation work together, so this one cell could make eight genetically different gametes.</p>
+    <div class="panel">
+      <div style="overflow-x:auto">
+        <svg id="togSvg" viewBox="0 0 760 900" class="stage-svg" style="min-width:560px;max-width:760px;margin-inline:auto" role="img" aria-label="Homologous chromosomes pair up, cross over, line up in one of two equally likely arrangements, then segregate into two cells, giving eight different gametes in total"></svg>
+      </div>
+      <p class="measure" style="margin:1rem 0 0">After segregation, the second division separates the sister chromatids, giving four gametes from each arrangement. Because crossing over swapped sections between chromatids, no two of the eight gametes are the same.</p>
     </div>
   </section>
 
@@ -753,6 +768,47 @@ $("#coSim").onclick=()=>{
   $("#simFb").textContent=`Genes far apart (A and D) were recombined about ${(pAD/pAB).toFixed(1)} times as often as genes close together (A and B). The further apart two genes are, the more likely a crossover falls between them. Genes very close together are linked: they are usually inherited together.`;
 };
 coDraw();
+
+/* ---------- putting it together ---------- */
+(function(){
+  const fr=.35;
+  const ar=(x1,y1,x2,y2)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#e8558a" stroke-width="4" stroke-linecap="round" marker-end="url(#togHead)"/>`;
+  const t=(x,y,str,cls,anc="middle")=>`<text x="${x}" y="${y}" text-anchor="${anc}" class="${cls}">${str}</text>`;
+  const gam=(x,sh,lo)=>`<rect x="${x-24}" y="750" width="48" height="100" rx="24" fill="url(#cellFill)" stroke="#f0a258" stroke-width="2"/>`+
+    chromatid(x,778,28,sh[0],{tip:sh[1],frac:fr})+chromatid(x,820,46,lo[0],{tip:lo[1],frac:fr});
+  let s=`<defs><marker id="togHead" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#e8558a"/></marker></defs>`;
+  /* 1. pair up */
+  s+=chromosome(370,60,S,MAT)+chromosome(390,60,S,PAT)+chromosome(370,125,L,MAT)+chromosome(390,125,L,PAT);
+  s+=t(345,88,"Homologous chromosomes","dl","end")+t(345,110,"pair up","dl","end");
+  s+=ar(380,168,380,212);
+  /* 2. crossing over */
+  s+=chromosome(370,255,S,MAT,{tipR:PAT,frac:fr})+chromosome(390,255,S,PAT,{tipL:MAT,frac:fr})+
+     chromosome(370,320,L,MAT,{tipR:PAT,frac:fr})+chromosome(390,320,L,PAT,{tipL:MAT,frac:fr});
+  s+=t(420,282,"Crossing over","dl","start")+t(420,303,"Non-sister chromatids","ds","start")+t(420,321,"swap sections","ds","start");
+  s+=ar(355,362,215,418)+ar(405,362,545,418);
+  /* 3. independent assortment */
+  s+=eqV(180,420,552)+eqV(580,420,552);
+  s+=chromosome(170,450,S,MAT,{tipR:PAT,frac:fr})+chromosome(190,450,S,PAT,{tipL:MAT,frac:fr})+
+     chromosome(170,515,L,MAT,{tipR:PAT,frac:fr})+chromosome(190,515,L,PAT,{tipL:MAT,frac:fr});
+  s+=chromosome(570,450,S,PAT,{tipR:MAT,frac:fr})+chromosome(590,450,S,MAT,{tipL:PAT,frac:fr})+
+     chromosome(570,515,L,MAT,{tipR:PAT,frac:fr})+chromosome(590,515,L,PAT,{tipL:MAT,frac:fr});
+  s+=t(140,488,"Arrangement 1","ds","end")+t(620,488,"Arrangement 2","ds","start");
+  s+=t(380,465,"Independent assortment","dl")+t(380,488,"Two equally likely ways","ds")+t(380,506,"for the pairs to line up","ds");
+  s+=ar(170,556,125,588)+ar(190,556,235,588)+ar(570,556,525,588)+ar(590,556,635,588);
+  /* 4. segregation */
+  s+=cellE(110,660,52,68)+cellE(250,660,52,68)+cellE(510,660,52,68)+cellE(650,660,52,68);
+  s+=chromosome(110,632,S,MAT,{tipR:PAT,frac:fr})+chromosome(110,686,L,MAT,{tipR:PAT,frac:fr})+
+     chromosome(250,632,S,PAT,{tipL:MAT,frac:fr})+chromosome(250,686,L,PAT,{tipL:MAT,frac:fr})+
+     chromosome(510,632,S,PAT,{tipR:MAT,frac:fr})+chromosome(510,686,L,MAT,{tipR:PAT,frac:fr})+
+     chromosome(650,632,S,MAT,{tipL:PAT,frac:fr})+chromosome(650,686,L,PAT,{tipL:MAT,frac:fr});
+  s+=t(380,622,"Segregation","dl")+t(380,645,"Homologous chromosomes","ds")+t(380,663,"move to opposite poles,","ds")+
+     t(380,681,"so each cell gets one","ds")+t(380,699,"chromosome from each","ds")+t(380,717,"pair (one allele of","ds")+t(380,735,"each gene)","ds");
+  /* 5. gametes */
+  s+=gam(80,[MAT],[MAT])+gam(140,[MAT,PAT],[MAT,PAT])+gam(220,[PAT,MAT],[PAT,MAT])+gam(280,[PAT],[PAT])+
+     gam(480,[PAT],[MAT])+gam(540,[PAT,MAT],[MAT,PAT])+gam(620,[MAT,PAT],[PAT,MAT])+gam(680,[MAT],[PAT]);
+  s+=t(180,882,"Gametes from arrangement 1","ds")+t(580,882,"Gametes from arrangement 2","ds");
+  $("#togSvg").innerHTML=s;
+})();
 
 /* ---------- quiz ---------- */
 const QUIZ=[
