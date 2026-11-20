@@ -265,7 +265,7 @@ footer{margin:4rem 0 2.5rem;padding-top:1.5rem;border-top:2px dashed var(--line)
 
   <!-- ORDER ACTIVITIES -->
   <section class="sec or" id="order">
-    <h2>Activity 1: Order the pictures</h2>
+    <h2>Activity: Order the pictures</h2>
     <p class="measure">The nine stages are mixed up. Tap one card, then tap another to swap them (or drag one onto another). When you think they are in order from interphase to telophase II, check your answer. Stage names appear on cards in the right place.</p>
     <div class="panel" id="sortImg">
       <ol class="sort-list img"></ol>
@@ -277,17 +277,6 @@ footer{margin:4rem 0 2.5rem;padding-top:1.5rem;border-top:2px dashed var(--line)
       <p class="fb" aria-live="polite"></p>
     </div>
 
-    <h2 style="margin-top:3rem">Activity 2: Order the statements</h2>
-    <p class="measure">Now do it with words only. Put these descriptions in the order they happen. Look for clue words like “pair”, “single file” and “four”.</p>
-    <div class="panel" id="sortTxt">
-      <ol class="sort-list txt"></ol>
-      <div class="row">
-        <button class="btn" data-act="check">Check my order</button>
-        <button class="btn ghost" data-act="shuffle">Shuffle again</button>
-        <button class="btn ghost" data-act="answer">Show the answer</button>
-      </div>
-      <p class="fb" aria-live="polite"></p>
-    </div>
   </section>
 
   <!-- SEGREGATION -->
@@ -618,7 +607,6 @@ function makeSorter(rootSel,kind){
   render();
 }
 makeSorter("#sortImg","img");
-makeSorter("#sortTxt","txt");
 
 /* ---------- segregation ---------- */
 const seg={g:"Aa",step:0,answered:false};
