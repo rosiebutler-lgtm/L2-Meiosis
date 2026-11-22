@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Y9 Ecology Field Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+/* Layout: a field notebook on faint graph paper. Sticky phase bar, then four phase sections (key ideas, then practice), then extended answers. */
+:root{
+  --bg:#f3f7f1; --surface:#ffffff; --surface2:#e8f0e4; --ink:#13302a; --ink2:#4b6359; --line:#cddbc9;
+  --moss:#2c7a4b; --mossInk:#ffffff; --tide:#1f668e; --kowhai:#d9a514; --kowhaiSoft:#fbefc2;
+  --good:#1d7543; --goodbg:#e0f3e5; --bad:#b0352d; --badbg:#fbe3df;
+  --grid:rgba(44,122,75,.075); --bar:rgba(243,247,241,.94);
+  --sky:#e1eff5; --soil:#c9b48f; --trunk:#7a5a3a; --leaf:#2f7d48; --leaf2:#6aae66; --grass:#93c162; --sun:#f2c230; --petal:#ffffff; --quad:#b7d48c;
+  --display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e1b17; --surface:#15261f; --surface2:#1c3329; --ink:#e4efe8; --ink2:#a7beb2; --line:#2b4539;
+    --moss:#6cc48d; --mossInk:#0e1b17; --tide:#7cbde3; --kowhai:#f0c64a; --kowhaiSoft:#3a3216;
+    --good:#7ad49b; --goodbg:rgba(80,190,120,.16); --bad:#ff9a8f; --badbg:rgba(230,90,80,.18);
+    --grid:rgba(108,196,141,.06); --bar:rgba(14,27,23,.94);
+    --sky:#16303b; --soil:#5a4a33; --trunk:#8c6c4c; --leaf:#3f9058; --leaf2:#5e9f62; --grass:#6c9744; --sun:#f0c64a; --petal:#f4f4ee; --quad:#41622c;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e1b17; --surface:#15261f; --surface2:#1c3329; --ink:#e4efe8; --ink2:#a7beb2; --line:#2b4539;
+  --moss:#6cc48d; --mossInk:#0e1b17; --tide:#7cbde3; --kowhai:#f0c64a; --kowhaiSoft:#3a3216;
+  --good:#7ad49b; --goodbg:rgba(80,190,120,.16); --bad:#ff9a8f; --badbg:rgba(230,90,80,.18);
+  --grid:rgba(108,196,141,.06); --bar:rgba(14,27,23,.94);
+  --sky:#16303b; --soil:#5a4a33; --trunk:#8c6c4c; --leaf:#3f9058; --leaf2:#5e9f62; --grass:#6c9744; --sun:#f0c64a; --petal:#f4f4ee; --quad:#41622c;
+  color-scheme:dark;
+}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 5rem);scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;color:var(--ink);font:400 1.0625rem/1.6 var(--body);
+  background-color:var(--bg);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:24px 24px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bar)}
+img,svg{max-width:100%}
+a{color:inherit;text-decoration-color:var(--moss);text-decoration-thickness:2px;text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--kowhai);outline-offset:2px;border-radius:6px}
+.wrap{max-width:1080px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);line-height:1.1;margin:0;text-wrap:balance}
+h1{font-size:clamp(2.4rem,6vw,3.8rem);font-weight:800;letter-spacing:-.02em}
+h2{font-size:clamp(1.7rem,3.6vw,2.4rem);font-weight:800;letter-spacing:-.01em}
+h3{font-size:1.2rem;font-weight:600}
+p{margin:0}
+.eyebrow{font-family:var(--mono);font-size:.78rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--moss)}
+.muted{color:var(--ink2)}
+.stack{display:flex;flex-direction:column;gap:1rem}
+
+/* sticky bar */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--bar);border-bottom:1px solid var(--line);backdrop-filter:blur(6px)}
+.bar .wrap{display:flex;align-items:center;gap:.75rem;padding-block:.55rem}
+.brand{font-family:var(--display);font-weight:800;font-size:1.05rem;white-space:nowrap;text-decoration:none}
+.chips{display:flex;gap:.4rem;overflow-x:auto;flex:1;min-width:0;scrollbar-width:none;padding-block:2px}
+.chips::-webkit-scrollbar{display:none}
+.chips a{white-space:nowrap;text-decoration:none;font-size:.88rem;font-weight:700;padding:.3rem .7rem;border-radius:999px;border:1.5px solid var(--line);background:var(--surface)}
+.chips a:hover{border-color:var(--moss)}
+.score{font-family:var(--mono);font-size:.8rem;white-space:nowrap;padding:.3rem .65rem;border-radius:8px;background:var(--surface2);font-variant-numeric:tabular-nums}
+@media (max-width:640px){.brand{display:none}.score .lbl{display:none}}
+
+/* hero */
+.hero{padding-block:3rem 2rem;display:flex;flex-direction:column;gap:1.4rem}
+.hero .lede{font-size:1.18rem;color:var(--ink2);max-width:62ch}
+.how{display:flex;flex-wrap:wrap;gap:.5rem 1.4rem;font-size:.95rem;color:var(--ink2);margin:0;padding:0;list-style:none}
+.how li{display:flex;gap:.45rem;align-items:center}
+.how .tag{flex:none}
+.phases{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.9rem}
+.pcard{display:flex;flex-direction:column;gap:.45rem;text-decoration:none;background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:1rem 1.1rem;transition:border-color .15s,transform .15s}
+.pcard:hover{border-color:var(--moss);transform:translateY(-2px)}
+.pcard h3{font-size:1.08rem}
+.pcard p{font-size:.92rem;color:var(--ink2)}
+.focus{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;font-size:.92rem}
+.focus span.pill{background:var(--kowhaiSoft);border-radius:6px;padding:.1rem .5rem;font-weight:700}
+
+/* sections */
+.phase{padding-block:3rem;border-top:1px dashed var(--line)}
+.phase-head{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.6rem;max-width:72ch}
+.objective{font-size:1.05rem}
+.objective b{font-family:var(--mono);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);margin-right:.4rem}
+.sub{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin:2.2rem 0 1rem}
+.sub .phase-score{font-family:var(--mono);font-size:.82rem;color:var(--ink2);font-variant-numeric:tabular-nums}
+.ideas{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:.9rem}
+.note{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:1rem 1.1rem;display:flex;flex-direction:column;gap:.5rem;min-width:0}
+.note h3{font-size:1.05rem}
+.note p,.note li{font-size:.97rem}
+.note ul{margin:0;padding-left:1.15rem;display:flex;flex-direction:column;gap:.25rem}
+.kw{background:var(--kowhaiSoft);border-radius:4px;padding:0 .25rem;font-weight:700}
+.formula{font-family:var(--mono);font-size:.92rem;background:var(--surface2);border-radius:8px;padding:.55rem .7rem;line-height:1.7}
+
+.figure{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:1rem;margin-top:.9rem;display:flex;flex-direction:column;gap:.5rem}
+.figure figcaption{font-size:.9rem;color:var(--ink2)}
+.scroll{overflow-x:auto;max-width:100%}
+.svgbox svg{display:block;width:100%;height:auto;min-width:520px}
+
+/* data tables */
+table.data{border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:.92rem;width:100%}
+table.data caption{caption-side:top;text-align:left;font-size:.9rem;color:var(--ink2);padding-bottom:.5rem;font-family:var(--body);white-space:normal;min-width:0}
+table.data th,table.data td{border:1px solid var(--line);padding:.4rem .65rem;text-align:center}
+table.data th{background:var(--surface2);font-weight:700;font-size:.85rem}
+table.data td{font-family:var(--mono)}
+table.data th[scope=row]{text-align:left;font-family:var(--body)}
+table.data td.ask{color:var(--tide);font-weight:700}
+.tablebox{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:.8rem;overflow-x:auto}
+
+/* equipment table */
+table.kit{border-collapse:collapse;width:100%;min-width:620px;font-size:.94rem}
+table.kit th,table.kit td{text-align:left;padding:.5rem .6rem;border-bottom:1px solid var(--line);vertical-align:top}
+table.kit th{font-family:var(--mono);font-size:.76rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink2)}
+table.kit td:first-child{font-weight:700}
+table.kit td.u{font-family:var(--mono);white-space:nowrap}
+
+/* questions */
+.qs{display:flex;flex-direction:column;gap:1rem}
+.q{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:1.1rem 1.2rem;display:flex;flex-direction:column;gap:.8rem;min-width:0}
+.q-head{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.qn{font-family:var(--mono);font-weight:700;font-size:.85rem;color:var(--ink2)}
+.tag{font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:.15rem .5rem;border-radius:5px;border:1.5px solid currentColor}
+.t-mcq{color:var(--moss)} .t-num{color:var(--tide)} .t-short{color:var(--kowhai)} .t-long{color:var(--ink)}
+.q-text{font-size:1.04rem;font-weight:700;max-width:75ch}
+.q-text .plain{font-weight:400}
+.opts{display:grid;gap:.5rem}
+.opt{font:inherit;font-size:.98rem;text-align:left;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:9px;padding:.6rem .8rem;cursor:pointer;display:flex;gap:.7rem;align-items:flex-start}
+.opt:hover:not(:disabled){border-color:var(--moss)}
+.opt .l{font-family:var(--mono);font-weight:700;color:var(--ink2);flex:none}
+.opt:disabled{cursor:default}
+.opt.right{background:var(--goodbg);border-color:var(--good)}
+.opt.wrong{background:var(--badbg);border-color:var(--bad)}
+.fb{border-radius:9px;padding:.7rem .85rem;font-size:.96rem;display:flex;flex-direction:column;gap:.35rem}
+.fb.ok{background:var(--goodbg);color:var(--ink)} .fb.no{background:var(--badbg);color:var(--ink)}
+.fb strong.ok{color:var(--good)} .fb strong.no{color:var(--bad)}
+.row{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center}
+.num{font-family:var(--mono);font-size:1rem;width:9rem;padding:.5rem .65rem;border-radius:8px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink)}
+.unit{font-family:var(--mono);color:var(--ink2)}
+textarea{width:100%;min-height:7rem;font:inherit;font-size:.98rem;padding:.7rem .8rem;border-radius:9px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);resize:vertical}
+.q.type-long textarea{min-height:13rem}
+.btn{font:inherit;font-weight:700;font-size:.95rem;border:0;border-radius:9px;padding:.55rem 1rem;background:var(--moss);color:var(--mossInk);cursor:pointer}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn.ghost:hover{border-color:var(--moss)}
+.warn{font-size:.9rem;color:var(--bad)}
+.model{background:var(--surface2);border-radius:10px;padding:.9rem 1rem;display:flex;flex-direction:column;gap:.7rem}
+.model h4{margin:0;font-family:var(--mono);font-size:.76rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2)}
+.model .ans{font-size:.98rem;display:flex;flex-direction:column;gap:.5rem}
+.pts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.35rem}
+.pts label{display:flex;gap:.55rem;align-items:flex-start;cursor:pointer;font-size:.96rem}
+.pts input{margin-top:.25rem;width:1.05rem;height:1.05rem;accent-color:var(--moss);flex:none}
+.selfscore{font-family:var(--mono);font-size:.85rem;color:var(--moss);font-weight:700}
+.work{font-size:.95rem;background:var(--surface2);border-radius:9px;padding:.65rem .8rem}
+
+/* quadrat practice */
+.quadwrap{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:1.2rem;align-items:center}
+@media (max-width:700px){.quadwrap{grid-template-columns:1fr}}
+.quadwrap svg{width:100%;max-width:300px;height:auto;display:block}
+
+/* generator */
+.gen{background:var(--surface);border:1.5px solid var(--tide);border-radius:12px;padding:1.1rem 1.2rem;display:flex;flex-direction:column;gap:.9rem}
+.counts{display:flex;flex-wrap:wrap;gap:.45rem}
+.counts span{font-family:var(--mono);font-weight:700;font-size:1.15rem;min-width:2.8rem;text-align:center;padding:.35rem .5rem;border-radius:8px;background:var(--surface2);font-variant-numeric:tabular-nums}
+.gen .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.8rem}
+.gen label{display:flex;flex-direction:column;gap:.3rem;font-weight:700;font-size:.95rem}
+
+footer{padding-block:2.5rem 3rem;border-top:1px dashed var(--line);font-size:.9rem;color:var(--ink2)}
+</style>
+</head>
+<body>
+<header class="bar">
+  <div class="wrap">
+    <a class="brand" href="#top">Ecology Field Guide</a>
+    <nav class="chips" aria-label="Sections">
+      <a href="#p1">1 · Conditions</a>
+      <a href="#p2">2 · Sampling</a>
+      <a href="#p3">3 · Abiotic</a>
+      <a href="#p4">4 · Analysing</a>
+      <a href="#ext">Extended answers</a>
+    </nav>
+    <span class="score" id="score" title="Multiple choice and calculation questions you have got right"><span class="lbl">Auto-marked </span><span id="scoreN">0</span>/<span id="scoreT">0</span></span>
+  </div>
+</header>
+
+<main class="wrap" id="top">
+  <section class="hero">
+    <span class="eyebrow">Year 9 Science · Ecology revision</span>
+    <h1>Ecology Field Guide</h1>
+    <p class="lede">Revise how living and non-living factors shape where organisms live, how ecologists sample with quadrats and transects, and how to turn a data table into an evidence-based explanation.</p>
+    <div class="focus"><span class="muted">Focus skills:</span><span class="pill">Quadrats</span><span class="pill">Transects</span><span class="pill">Reading data tables</span><span class="pill">Mean</span><span class="pill">Range</span></div>
+    <ul class="how">
+      <li><span class="tag t-mcq">Multiple choice</span> instant feedback</li>
+      <li><span class="tag t-num">Calculation</span> checked for you</li>
+      <li><span class="tag t-short">Short answer</span><span class="tag t-long">Extended</span> write first, then mark yourself against the model answer</li>
+    </ul>
+    <div class="phases">
+      <a class="pcard" href="#p1"><span class="eyebrow">Phase 1</span><h3>Ecosystem conditions and organism distribution</h3><p>Explain how biotic and abiotic factors influence the distribution and abundance of organisms.</p></a>
+      <a class="pcard" href="#p2"><span class="eyebrow">Phase 2</span><h3>Sampling abundance and distribution</h3><p>Use quadrats and transects appropriately to collect ecological data and justify sampling choices.</p></a>
+      <a class="pcard" href="#p3"><span class="eyebrow">Phase 3</span><h3>Measuring abiotic variables</h3><p>Measure relevant environmental variables and connect them to biological patterns.</p></a>
+      <a class="pcard" href="#p4"><span class="eyebrow">Phase 4</span><h3>Analysing ecological patterns</h3><p>Analyse ecological data to identify relationships and construct evidence-based explanations.</p></a>
+    </div>
+  </section>
+
+  <!-- PHASE 1 -->
+  <section class="phase" id="p1">
+    <div class="phase-head">
+      <span class="eyebrow">Learning phase 1</span>
+      <h2>Ecosystem conditions and organism distribution</h2>
+      <p class="objective"><b>Objective</b>Explain how biotic and abiotic factors influence the distribution and abundance of organisms.</p>
+    </div>
+    <div class="ideas">
+      <div class="note"><h3>Distribution vs abundance</h3>
+        <p><span class="kw">Distribution</span> is <em>where</em> organisms are found in a habitat.</p>
+        <p><span class="kw">Abundance</span> is <em>how many</em> there are, as a count or a percentage cover.</p>
+        <p class="muted">Barnacles are found high on the shore (distribution) at about 40 per quadrat (abundance).</p>
+      </div>
+      <div class="note"><h3>Abiotic factors</h3>
+        <p>Non-living physical or chemical conditions.</p>
+        <ul><li>Light intensity</li><li>Temperature</li><li>Water / soil moisture</li><li>Soil pH and nutrients</li><li>Wind exposure</li><li>Salinity and time out of water (rocky shore)</li></ul>
+      </div>
+      <div class="note"><h3>Biotic factors</h3>
+        <p>Effects of other living things.</p>
+        <ul><li>Predation (whelks eating mussels)</li><li>Competition for light, space, water or food</li><li>Grazing (sheep, possums)</li><li>Disease and parasites</li><li>Food supply and pollinators</li></ul>
+      </div>
+      <div class="note"><h3>Tolerance and limiting factors</h3>
+        <p>Every species survives only within a <span class="kw">range of tolerance</span> for each condition. Outside it, it can't survive or reproduce.</p>
+        <p>The factor in shortest supply is the <span class="kw">limiting factor</span>. It sets how big a population can get.</p>
+      </div>
+    </div>
+    <div class="sub"><h3>Practice</h3><span class="phase-score" data-phase="p1"></span></div>
+    <div class="qs" id="q-p1"></div>
+  </section>
+
+  <!-- PHASE 2 -->
+  <section class="phase" id="p2">
+    <div class="phase-head">
+      <span class="eyebrow">Learning phase 2</span>
+      <h2>Sampling abundance and distribution</h2>
+      <p class="objective"><b>Objective</b>Use quadrats and transects appropriately to collect ecological data and justify sampling choices.</p>
+    </div>
+    <div class="ideas">
+      <div class="note"><h3>Why sample?</h3>
+        <p>You can't count every plant in a field, so you count in small, <span class="kw">representative</span> areas and scale up.</p>
+        <p>More samples give more <span class="kw">reliable</span> results, because one unusual quadrat has less effect on the mean.</p>
+      </div>
+      <div class="note"><h3>Quadrats</h3>
+        <p>A square frame of known area, often 0.5 m × 0.5 m = <strong>0.25 m²</strong>, or 1 m².</p>
+        <ul><li><strong>Count</strong> individuals you can tell apart (daisies, limpets).</li><li>Estimate <strong>percentage cover</strong> when you can't (grass, moss, lichen).</li></ul>
+      </div>
+      <div class="note"><h3>Random quadrats</h3>
+        <p>Use these to <strong>compare abundance</strong> in two areas, e.g. mown lawn vs long grass.</p>
+        <p>Lay two tapes as axes, pick coordinates with a random number generator. Random placement <span class="kw">avoids bias</span>.</p>
+      </div>
+      <div class="note"><h3>Transects</h3>
+        <p>Use these where conditions <strong>change gradually</strong> across a habitat (a gradient), e.g. bush to paddock, low tide to high tide.</p>
+        <ul><li><strong>Line transect:</strong> record what touches the tape at regular intervals.</li><li><strong>Belt transect:</strong> place quadrats at regular intervals along the tape.</li></ul>
+      </div>
+      <div class="note"><h3>Estimating a population</h3>
+        <p class="formula">population ≈ mean per quadrat × (total area ÷ quadrat area)</p>
+        <p class="muted">Mean 6 daisies per 0.25 m² quadrat on a 100 m² lawn: 100 ÷ 0.25 = 400 quadrats, so 6 × 400 = 2400 daisies.</p>
+      </div>
+    </div>
+    <figure class="figure">
+      <div class="scroll svgbox" id="transectFig"></div>
+      <figcaption>A belt transect running from inside native bush (0 m) across the bush edge (10 m) into the paddock. A quadrat is placed every 5 m, and abiotic readings are taken at each quadrat.</figcaption>
+    </figure>
+    <div class="sub"><h3>Practice</h3><span class="phase-score" data-phase="p2"></span></div>
+    <div class="qs" id="q-p2"></div>
+  </section>
+
+  <!-- PHASE 3 -->
+  <section class="phase" id="p3">
+    <div class="phase-head">
+      <span class="eyebrow">Learning phase 3</span>
+      <h2>Measuring abiotic variables</h2>
+      <p class="objective"><b>Objective</b>Measure relevant environmental variables and connect them to biological patterns.</p>
+    </div>
+    <div class="tablebox">
+      <table class="kit">
+        <thead><tr><th>Variable</th><th>Equipment</th><th>Unit</th><th>Good practice</th></tr></thead>
+        <tbody>
+          <tr><td>Light intensity</td><td>Light meter (or a phone light-sensor app)</td><td class="u">lux</td><td>Hold the sensor at the same height and angle. Take all readings close together in time, because cloud changes light quickly.</td></tr>
+          <tr><td>Temperature</td><td>Thermometer or temperature probe</td><td class="u">°C</td><td>Push soil probes to the same depth each time. Keep the probe out of direct sun for air temperature.</td></tr>
+          <tr><td>Soil moisture</td><td>Soil moisture meter</td><td class="u">%</td><td>Take 3 readings around each quadrat and calculate the mean.</td></tr>
+          <tr><td>Soil pH</td><td>pH meter, or universal indicator and a soil test kit</td><td class="u">pH (no unit)</td><td>Green = about pH 7 (neutral). Red/orange = acidic. Blue/purple = alkaline.</td></tr>
+          <tr><td>Wind speed</td><td>Anemometer</td><td class="u">m/s</td><td>Measure for the same length of time at each point.</td></tr>
+          <tr><td>Salinity</td><td>Salinity meter</td><td class="u">ppt</td><td>Useful in rock pools and estuaries.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="ideas" style="margin-top:.9rem">
+      <div class="note"><h3>Measure where you sample</h3>
+        <p>Take abiotic readings <strong>at each quadrat</strong>. Then every count of organisms has matching conditions, and you can look for a relationship.</p>
+      </div>
+      <div class="note"><h3>Choose relevant variables</h3>
+        <p>Pick variables that change across the habitat and could affect the organisms. On a rocky shore, time out of water matters more than soil pH.</p>
+      </div>
+      <div class="note"><h3>Make readings reliable</h3>
+        <p>Repeat readings and calculate a mean. Use the same equipment, method and time of day for every point.</p>
+      </div>
+    </div>
+    <div class="sub"><h3>Practice</h3><span class="phase-score" data-phase="p3"></span></div>
+    <div class="qs" id="q-p3"></div>
+  </section>
+
+  <!-- PHASE 4 -->
+  <section class="phase" id="p4">
+    <div class="phase-head">
+      <span class="eyebrow">Learning phase 4</span>
+      <h2>Analysing ecological patterns</h2>
+      <p class="objective"><b>Objective</b>Analyse ecological data to identify relationships and construct evidence-based explanations.</p>
+    </div>
+    <div class="ideas">
+      <div class="note"><h3>Mean</h3>
+        <p class="formula">mean = total of all values ÷ number of values</p>
+        <p class="muted">Counts 4, 7, 5, 9, 5: total = 30, and there are 5 values. Mean = 30 ÷ 5 = <strong>6</strong>.</p>
+      </div>
+      <div class="note"><h3>Range</h3>
+        <p class="formula">range = highest value − lowest value</p>
+        <p class="muted">Counts 4, 7, 5, 9, 5: range = 9 − 4 = <strong>5</strong>. A big range means the results are spread out.</p>
+      </div>
+      <div class="note"><h3>Anomalies</h3>
+        <p>An <span class="kw">anomaly</span> is a result that doesn't fit the pattern of the others. Check it or repeat it. If you leave it out of the mean, say so and explain why.</p>
+      </div>
+      <div class="note"><h3>Describing a pattern</h3>
+        <p>Use “As ___ increases, ___ increases / decreases”. Quote data with units: “fern cover fell from 65% at 0 m to 0% at 20 m”.</p>
+        <p>A <span class="kw">correlation</span> doesn't prove one thing causes the other.</p>
+      </div>
+      <div class="note"><h3>Claim, Evidence, Reasoning</h3>
+        <ul><li><strong>Claim:</strong> what the pattern is.</li><li><strong>Evidence:</strong> numbers from the table.</li><li><strong>Reasoning:</strong> the biology that explains it.</li></ul>
+      </div>
+    </div>
+    <div class="sub"><h3>Mean and range trainer</h3></div>
+    <div class="gen" id="gen">
+      <p>A student counted limpets in six quadrats. Work out the mean (to 1 decimal place if needed) and the range.</p>
+      <div class="counts" id="genCounts"></div>
+      <div class="grid2">
+        <label for="genMean">Mean<input class="num" id="genMean" inputmode="decimal" autocomplete="off"></label>
+        <label for="genRange">Range<input class="num" id="genRange" inputmode="decimal" autocomplete="off"></label>
+      </div>
+      <div class="row"><button class="btn" id="genCheck" type="button">Check</button><button class="btn ghost" id="genNew" type="button">New data</button><span class="selfscore" id="genStreak"></span></div>
+      <div id="genFb"></div>
+    </div>
+    <div class="sub"><h3>Practice</h3><span class="phase-score" data-phase="p4"></span></div>
+    <div class="qs" id="q-p4"></div>
+  </section>
+
+  <!-- EXTENDED -->
+  <section class="phase" id="ext">
+    <div class="phase-head">
+      <span class="eyebrow">Bringing it together</span>
+      <h2>Extended answers</h2>
+      <p class="muted">These combine all four phases. Plan your answer, write it in full sentences, then reveal the model answer and tick each marking point you included.</p>
+    </div>
+    <div class="qs" id="q-ext"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">Your written answers are saved in this browser only, so you can come back to them on the same device.</div>
+</footer>
+
+<script>
+(function(){
+const $=(s,r=document)=>r.querySelector(s);
+const store={
+  get(k){try{return localStorage.getItem('eco9:'+k)}catch(e){return null}},
+  set(k,v){try{localStorage.setItem('eco9:'+k,v)}catch(e){}}
+};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* ---------- data tables ---------- */
+const T={
+t1:`<div class="tablebox"><table class="data"><caption><strong>Table 1.</strong> Number of daisies in 0.25 m² quadrats placed randomly in two areas of the school field</caption>
+<thead><tr><th scope="col">Quadrat</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th></tr></thead>
+<tbody><tr><th scope="row">Mown lawn</th><td>12</td><td>9</td><td>14</td><td>11</td><td>8</td><td>13</td><td>10</td><td>11</td></tr>
+<tr><th scope="row">Long grass</th><td>3</td><td>5</td><td>2</td><td>0</td><td>4</td><td>7</td><td>3</td><td>0</td></tr></tbody></table></div>`,
+t2:`<div class="tablebox"><table class="data"><caption><strong>Table 2.</strong> Belt transect from inside native bush (0 m) into a paddock. The bush edge is at 10 m.</caption>
+<thead><tr><th>Distance along transect (m)</th><th>Light intensity (lux)</th><th>Soil moisture (%)</th><th>Fern cover (%)</th><th>Grass cover (%)</th></tr></thead>
+<tbody>
+<tr><td>0</td><td>800</td><td>48</td><td>65</td><td>5</td></tr>
+<tr><td>5</td><td>2 500</td><td>42</td><td>40</td><td>20</td></tr>
+<tr><td>10</td><td>9 000</td><td>33</td><td>15</td><td>55</td></tr>
+<tr><td>15</td><td>18 000</td><td>25</td><td>5</td><td>80</td></tr>
+<tr><td>20</td><td>21 000</td><td>22</td><td>0</td><td>90</td></tr>
+<tr><td>25</td><td>22 000</td><td>20</td><td>0</td><td>95</td></tr>
+</tbody></table></div>`,
+t3:`<div class="tablebox"><table class="data"><caption><strong>Table 3.</strong> Barnacles counted in 0.25 m² quadrats at different heights on a rocky shore. Three quadrats were used at each height.</caption>
+<thead><tr><th>Height above low tide (m)</th><th>Quadrat A</th><th>Quadrat B</th><th>Quadrat C</th><th>Mean</th></tr></thead>
+<tbody>
+<tr><td>0.5</td><td>2</td><td>4</td><td>3</td><td>3</td></tr>
+<tr><td>1.0</td><td>15</td><td>12</td><td>51</td><td class="ask">?</td></tr>
+<tr><td>1.5</td><td>30</td><td>34</td><td>26</td><td class="ask">?</td></tr>
+<tr><td>2.0</td><td>42</td><td>38</td><td>46</td><td>42</td></tr>
+<tr><td>2.5</td><td>20</td><td>18</td><td>22</td><td>20</td></tr>
+<tr><td>3.0</td><td>0</td><td>1</td><td>2</td><td>1</td></tr>
+</tbody></table></div>`
+};
+
+/* ---------- quadrat figure ---------- */
+function quadratSVG(){
+  const c=56,o=10,n=5;
+  const moss=[0,1,5,6,7,11,12,18,24];
+  const patches=[3,15,22];
+  const daisies=[[2,.35,.4],[8,.6,.55],[9,.3,.65],[13,.55,.35],[16,.45,.6],[20,.6,.4],[23,.35,.5]];
+  let s=`<svg viewBox="0 0 300 300" role="img" aria-label="A quadrat divided into 25 squares, with patches of moss and some daisies">`;
+  s+=`<rect x="${o}" y="${o}" width="${c*n}" height="${c*n}" fill="var(--quad)"/>`;
+  moss.forEach(i=>{const x=o+(i%n)*c,y=o+Math.floor(i/n)*c;s+=`<rect x="${x+3}" y="${y+3}" width="${c-6}" height="${c-6}" rx="10" fill="var(--leaf)"/>`});
+  patches.forEach(i=>{const x=o+(i%n)*c,y=o+Math.floor(i/n)*c;s+=`<ellipse cx="${x+16}" cy="${y+40}" rx="11" ry="8" fill="var(--leaf)"/>`});
+  daisies.forEach(([i,fx,fy])=>{const cx=o+(i%n)*c+fx*c,cy=o+Math.floor(i/n)*c+fy*c;
+    for(let k=0;k<8;k++){const a=k*Math.PI/4;s+=`<ellipse cx="${(cx+Math.cos(a)*7).toFixed(1)}" cy="${(cy+Math.sin(a)*7).toFixed(1)}" rx="4.2" ry="2.6" transform="rotate(${k*45} ${(cx+Math.cos(a)*7).toFixed(1)} ${(cy+Math.sin(a)*7).toFixed(1)})" fill="var(--petal)"/>`}
+    s+=`<circle cx="${cx}" cy="${cy}" r="4" fill="var(--sun)"/>`});
+  for(let k=0;k<=n;k++){s+=`<line x1="${o+k*c}" y1="${o}" x2="${o+k*c}" y2="${o+n*c}" stroke="var(--ink)" stroke-opacity=".35" stroke-width="1.2"/><line x1="${o}" y1="${o+k*c}" x2="${o+n*c}" y2="${o+k*c}" stroke="var(--ink)" stroke-opacity=".35" stroke-width="1.2"/>`}
+  s+=`<rect x="${o}" y="${o}" width="${c*n}" height="${c*n}" fill="none" stroke="var(--trunk)" stroke-width="6"/>`;
+  return s+`</svg>`;
+}
+const quadratPre=`<div class="quadwrap">${quadratSVG()}<div class="stack" style="gap:.5rem"><p>This quadrat is <strong>0.5 m × 0.5 m</strong> and is split into 25 equal squares, so each square is <strong>4%</strong> of the quadrat.</p><p class="muted">For percentage cover, count a square only if it is at least half covered. Dark green patches are moss. The white flowers are daisies.</p></div></div>`;
+
+/* ---------- transect figure ---------- */
+(function(){
+  let s=`<svg viewBox="0 0 720 250" role="img" aria-label="Diagram of a belt transect from native bush into a paddock with quadrats every 5 metres">`;
+  s+=`<rect x="0" y="0" width="720" height="250" fill="var(--sky)"/>`;
+  s+=`<circle cx="650" cy="44" r="22" fill="var(--sun)"/>`;
+  s+=`<rect x="0" y="182" width="720" height="68" fill="var(--soil)"/>`;
+  for(let x=300;x<720;x+=9){const h=10+((x*7)%9);s+=`<path d="M${x} 182 L${x+3} ${182-h} L${x+6} 182 Z" fill="var(--grass)"/>`}
+  const trees=[[30,70],[85,52],[140,66],[195,48],[250,74],[300,96]];
+  trees.forEach(([x,top])=>{s+=`<rect x="${x-5}" y="${top+30}" width="10" height="${182-top-30}" fill="var(--trunk)"/>`;
+    s+=`<circle cx="${x}" cy="${top+18}" r="30" fill="var(--leaf)"/><circle cx="${x-18}" cy="${top+34}" r="20" fill="var(--leaf)"/><circle cx="${x+18}" cy="${top+32}" r="22" fill="var(--leaf)"/>`});
+  [[20,0],[62,1],[110,0],[168,1],[222,0],[268,1]].forEach(([x,f])=>{for(let k=-2;k<=2;k++){s+=`<path d="M${x} 182 Q ${x+k*9} ${160} ${x+k*14} ${165+Math.abs(k)*3}" stroke="var(--leaf2)" stroke-width="3" fill="none"/>`}});
+  s+=`<line x1="300" y1="30" x2="300" y2="200" stroke="var(--ink2)" stroke-width="1.5" stroke-dasharray="5 5"/>`;
+  s+=`<text x="306" y="28" font-family="var(--mono)" font-size="12" fill="var(--ink2)">bush edge</text>`;
+  s+=`<text x="16" y="24" font-family="var(--body)" font-weight="700" font-size="15" fill="var(--ink)">Native bush</text>`;
+  s+=`<text x="460" y="24" font-family="var(--body)" font-weight="700" font-size="15" fill="var(--ink)">Paddock</text>`;
+  s+=`<line x1="40" y1="200" x2="680" y2="200" stroke="var(--ink)" stroke-width="2.5"/>`;
+  for(let i=0;i<6;i++){const x=48+i*126;s+=`<rect x="${x-14}" y="186" width="28" height="28" fill="none" stroke="var(--tide)" stroke-width="3"/>`;
+    s+=`<text x="${x}" y="236" text-anchor="middle" font-family="var(--mono)" font-size="13" fill="var(--ink)">${i*5} m</text>`}
+  s+=`<text x="560" y="88" font-family="var(--mono)" font-size="12" fill="var(--ink2)">more light,</text><text x="560" y="104" font-family="var(--mono)" font-size="12" fill="var(--ink2)">drier soil →</text>`;
+  $('#transectFig').innerHTML=s+`</svg>`;
+})();
+
+/* ---------- questions ---------- */
+const Q={
+p1:[
+ {t:'mcq',q:'Which of these is an <em>abiotic</em> factor?',o:['The number of possums eating leaves','Soil pH','A fungal disease spreading through kauri trees','Competition for nectar between tūī and bellbirds'],a:1,why:'Abiotic factors are non-living physical or chemical conditions. Soil pH is chemical. The other three all involve living things, so they are biotic.'},
+ {t:'mcq',q:'What does the <em>distribution</em> of a species describe?',o:['Where the species is found in a habitat','How many individuals there are','How fast the population is growing','What the species eats'],a:0,why:'Distribution is where organisms are found. Abundance is how many there are.'},
+ {t:'mcq',q:'Ferns are common under the bush canopy but rare in the sunny paddock next to it. Which explanation is best?',o:['Ferns need lots of direct sunlight to grow','The paddock is darker than the bush','Under the canopy the soil and air stay moister, so fern fronds are less likely to dry out','Ferns can’t grow anywhere that has other plants'],a:2,why:'Ferns are adapted to shaded, moist conditions. Under the canopy there is less evaporation, so soil moisture and humidity stay high.'},
+ {t:'mcq',q:'On a rocky shore, mussels are rare on rocks where lots of whelks live. Whelks eat mussels. This is an example of…',o:['an abiotic factor reducing abundance','competition for light','a sampling error','a biotic factor (predation) reducing abundance'],a:3,why:'Predation is a biotic factor because it involves another living organism.'},
+ {t:'mcq',q:'Which pair are <em>both</em> biotic factors?',o:['Temperature and rainfall','Grazing by sheep and competition for light','Wind speed and soil moisture','Salinity and light intensity'],a:1,why:'Grazing and competition both involve other living organisms. Light itself is abiotic, but <em>competing</em> for it is a biotic interaction.'},
+ {t:'mcq',q:'What is a limiting factor?',o:['Any factor measured during fieldwork','A factor that only affects animals','The number of quadrats used','The condition in shortest supply, which stops a population growing any larger'],a:3,why:'A limiting factor restricts the size or growth of a population, e.g. low light limits plants on the forest floor.'},
+ {t:'short',q:'Define the term <em>abiotic factor</em> and give two examples from a New Zealand habitat.',model:'<p>An abiotic factor is a non-living physical or chemical condition in the environment.</p><p>Examples: low light intensity on the forest floor of native bush; the amount of time rocks on the upper shore are exposed to air at low tide; soil moisture; temperature; salinity in a rock pool; wind on an exposed coastal headland.</p>',pts:['Abiotic means a non-living (physical or chemical) condition','First correct example','Second correct example']},
+ {t:'short',q:'Explain the difference between the <em>distribution</em> and the <em>abundance</em> of an organism. Use an example.',model:'<p>Distribution is where an organism is found, for example barnacles are found mainly on the middle and upper rocky shore. Abundance is how many there are in an area, for example about 40 barnacles per 0.25 m² quadrat.</p>',pts:['Distribution = where organisms are found','Abundance = how many there are (number or % cover)','A correct example of either']},
+ {t:'short',q:'Clover grows well in a newly sown lawn but becomes much less abundant once tall grass grows. Explain how a biotic factor could cause this.',model:'<p>The tall grass <strong>competes</strong> with the clover (a biotic factor). The grass grows taller and shades the low-growing clover, so less light reaches it. With less light the clover photosynthesises less, grows more slowly and fewer plants survive, so its abundance decreases. The grass may also compete for water and soil nutrients.</p>',pts:['Names competition with the grass as the biotic factor','Names a resource competed for (light, water or nutrients)','Explains the effect: less photosynthesis / growth / survival, so fewer clover plants']}
+],
+p2:[
+ {t:'mcq',q:'A quadrat measures 0.5 m × 0.5 m. What area does it sample?',o:['1 m²','0.25 m²','2 m²','0.5 m²'],a:1,why:'Area = length × width = 0.5 × 0.5 = 0.25 m².'},
+ {t:'mcq',q:'Which method is best for finding how plant species change from inside native bush out into an open paddock?',o:['Throw quadrats randomly in the paddock','Use one quadrat in the middle of the bush','Use a belt transect: a tape from the bush into the paddock with quadrats at regular intervals','Count every plant in the whole area'],a:2,why:'Conditions change gradually from bush to paddock. A transect samples at regular intervals along that change, so it shows how organisms change with distance.'},
+ {t:'mcq',q:'Why should quadrats be placed randomly when comparing a mown lawn with a long-grass area?',o:['To avoid bias, so the samples represent the whole area','So the student can choose the most interesting spots','Because random quadrats mean fewer quadrats are needed','Because transects can’t be used on grass'],a:0,why:'If you choose where to put the quadrat you might pick spots with more (or fewer) plants. Random placement removes that bias.'},
+ {t:'mcq',q:'When would you estimate percentage cover instead of counting individuals?',o:['When the organisms are large animals like sheep','When individual plants are hard to tell apart, such as grass or moss','When you only have one quadrat','When measuring light intensity'],a:1,why:'You can’t count separate moss or grass plants, so you estimate how much of the quadrat they cover.'},
+ {t:'mcq',q:'One student used 3 quadrats and another used 15 in the same field. Whose results are more reliable?',o:['The 3-quadrat student, because fewer quadrats means fewer mistakes','Both are equally reliable','The 15-quadrat student, because a larger sample is more representative and reduces the effect of unusual quadrats','Neither, because quadrats are only used on rocky shores'],a:2,why:'A larger sample size makes the mean more reliable, because one unusual quadrat has a smaller effect.'},
+ {t:'mcq',q:'In a <em>line</em> transect, you…',o:['count every organism in the whole habitat','place quadrats at random coordinates','measure only abiotic factors','record the organisms touching the tape at regular intervals'],a:3,why:'A line transect records what touches the line. A belt transect uses quadrats along the line.'},
+ {t:'num',pre:quadratPre,q:'Estimate the <strong>percentage cover of moss</strong> in this quadrat.',a:36,tol:0,unit:'%',hint:'Count only squares that are at least half covered in moss, then multiply by 4%. The small patches don’t count.',work:'9 squares are at least half covered. 9 × 4% = <strong>36%</strong>.'},
+ {t:'num',q:'How many daisies are in the quadrat above?',a:7,tol:0,unit:'daisies',hint:'Count the white flowers carefully, square by square.',work:'There are <strong>7</strong> daisies.'},
+ {t:'num',q:'The quadrat above (0.25 m²) is typical of a 50 m² lawn. Estimate the number of daisies on the whole lawn.',a:1400,tol:0,unit:'daisies',hint:'First work out how many 0.25 m² quadrats would fit into 50 m².',work:'50 ÷ 0.25 = 200 quadrats would fit on the lawn. 7 × 200 = <strong>1400 daisies</strong>. In a real study you would use the mean of many quadrats, not just one.'},
+ {t:'short',q:'Describe how you would place 10 quadrats randomly in a school field.',model:'<p>Lay two tape measures at right angles along two edges of the field to make axes, like a grid. Use a random number generator to choose an x and a y coordinate. Place the quadrat at that point and record the data. Repeat until 10 quadrats have been sampled.</p>',pts:['Sets up a grid or two tape measures as axes','Uses random numbers to choose the coordinates','Places the quadrat at each coordinate and repeats for 10 quadrats']},
+ {t:'short',q:'A class wants to study how seaweeds and animals change from the low-tide mark up to the high-tide mark. Justify why they should use a transect rather than random quadrats.',model:'<p>Conditions on a rocky shore change gradually with height, for example the time spent out of water, temperature and drying out. A transect from low tide to high tide samples at regular intervals along this gradient, so it shows how the organisms change with height. Random quadrats might miss some zones and wouldn’t show the pattern clearly.</p>',pts:['Identifies that conditions change gradually across the shore (a gradient)','A transect samples at regular intervals along the change','Random quadrats could miss zones or not show the pattern']}
+],
+p3:[
+ {t:'mcq',q:'Which equipment and unit would you use to measure light intensity?',o:['Thermometer, °C','Light meter, lux','Anemometer, m/s','pH meter, no unit'],a:1,why:'Light intensity is measured with a light meter in lux.'},
+ {t:'mcq',q:'A student measured light at the bush end of a transect at 9 am and at the paddock end at 1 pm. What is the main problem?',o:['Light was measured in the wrong unit','Light doesn’t affect plants','They should have used a thermometer instead','Light changes during the day and with cloud, so the readings aren’t a fair comparison'],a:3,why:'All readings should be taken close together in time, under the same conditions, so differences are caused by position on the transect.'},
+ {t:'mcq',q:'Why take three soil moisture readings at each quadrat and calculate the mean?',o:['To make the results more reliable by reducing the effect of one unusual reading','To make the numbers bigger','Because the meter only works three times','To change the independent variable'],a:0,why:'Repeating and averaging reduces the effect of random errors and unusual readings.'},
+ {t:'mcq',q:'Which abiotic variable is most useful for explaining why some seaweeds only grow low on a rocky shore?',o:['Soil pH','Wind direction','Time spent exposed to air (and drying out) at low tide','The number of people visiting the beach'],a:2,why:'Low-shore seaweeds can’t survive drying out. Higher up the shore, rocks are out of the water for longer.'},
+ {t:'mcq',q:'Universal indicator turns green when mixed with a soil sample. The soil is…',o:['strongly acidic (pH 1–3)','about neutral (pH 7)','strongly alkaline (pH 12–14)','very salty'],a:1,why:'Green means about pH 7, which is neutral.'},
+ {t:'mcq',pre:T.t2,q:'Which statement describes the relationship between light intensity and fern cover in Table 2?',o:['As light intensity increases, fern cover increases','There is no relationship','As light intensity increases, fern cover decreases','Fern cover controls light intensity'],a:2,why:'Light rises from 800 lux to 22 000 lux while fern cover falls from 65% to 0%. This is a negative correlation.'},
+ {t:'num',q:'Using Table 2, calculate the <strong>range</strong> of soil moisture along the transect.',a:28,tol:0,unit:'%',hint:'Range = highest − lowest.',work:'Highest = 48%, lowest = 20%. 48 − 20 = <strong>28%</strong>.'},
+ {t:'num',q:'Using Table 2, calculate the <strong>range</strong> of light intensity.',a:21200,tol:0,unit:'lux',hint:'Range = highest − lowest. Ignore the spaces in the numbers.',work:'22 000 − 800 = <strong>21 200 lux</strong>.'},
+ {t:'num',q:'Using Table 2, calculate the <strong>mean fern cover</strong> along the transect, to 1 decimal place.',a:20.8,tol:0.05,unit:'%',hint:'Add all six fern cover values (including the zeros) and divide by 6.',work:'65 + 40 + 15 + 5 + 0 + 0 = 125. 125 ÷ 6 = 20.83… = <strong>20.8%</strong>. Remember to include the zeros, because they are real results.'},
+ {t:'short',q:'Explain why the student in Table 2 measured soil moisture as well as light intensity, and why they took the readings at each quadrat.',model:'<p>Both light and soil moisture change along the transect, and either could affect where ferns grow. Measuring both lets the student see which abiotic factors match the change in fern cover, rather than assuming it is only light. Taking readings at each quadrat means each fern and grass result has matching abiotic data at the same place, so they can be compared directly.</p>',pts:['More than one abiotic factor changes along the transect and could affect the ferns','Measuring both helps show which factor(s) are linked to the pattern','Readings at each quadrat match the abiotic data to the organism data']}
+],
+p4:[
+ {t:'num',pre:T.t1,q:'Calculate the <strong>mean</strong> number of daisies per quadrat in the <strong>mown lawn</strong>.',a:11,tol:0,unit:'daisies',hint:'Add the eight values for the mown lawn and divide by 8.',work:'12 + 9 + 14 + 11 + 8 + 13 + 10 + 11 = 88. 88 ÷ 8 = <strong>11</strong>.'},
+ {t:'num',q:'Calculate the <strong>range</strong> of daisy numbers in the <strong>mown lawn</strong>.',a:6,tol:0,unit:'daisies',hint:'Highest − lowest.',work:'14 − 8 = <strong>6</strong>.'},
+ {t:'num',q:'Calculate the <strong>mean</strong> number of daisies per quadrat in the <strong>long grass</strong>.',a:3,tol:0,unit:'daisies',hint:'Include the zeros. There are still 8 quadrats.',work:'3 + 5 + 2 + 0 + 4 + 7 + 3 + 0 = 24. 24 ÷ 8 = <strong>3</strong>.'},
+ {t:'num',q:'Calculate the <strong>range</strong> of daisy numbers in the <strong>long grass</strong>.',a:7,tol:0,unit:'daisies',hint:'Highest − lowest. The lowest value is 0.',work:'7 − 0 = <strong>7</strong>.'},
+ {t:'mcq',q:'Which conclusion is best supported by Table 1?',o:['Daisies are more abundant in the mown lawn (mean 11 per quadrat) than in long grass (mean 3 per quadrat)','Long grass contains more daisies than mown lawn','Daisies are the same in both areas because the ranges are similar','Mowing kills daisies'],a:0,why:'A good conclusion compares the means and quotes the data. Table 1 doesn’t tell us <em>why</em>, so “mowing kills daisies” goes beyond the evidence.'},
+ {t:'short',q:'Suggest a biological reason for the difference in daisy abundance in Table 1.',model:'<p>Daisies are short plants. In long grass, the taller grass shades them, so they get less light for photosynthesis. Daisies are out-competed for light (and space), so fewer survive. In the mown lawn the grass is kept short, so the daisies get more light and are more abundant.</p>',pts:['Long grass shades the daisies / reduces light','Links light to photosynthesis or growth','Uses the idea of competition (a biotic factor)']},
+ {t:'mcq',pre:T.t3,q:'Which result in Table 3 is most likely an <strong>anomaly</strong>?',o:['2 at 0.5 m','51 at 1.0 m','46 at 2.0 m','0 at 3.0 m'],a:1,why:'The other two quadrats at 1.0 m have 15 and 12. 51 is far higher and doesn’t fit the pattern.'},
+ {t:'num',q:'Calculate the mean number of barnacles at <strong>1.5 m</strong>.',a:30,tol:0,unit:'barnacles',hint:'Add the three quadrats and divide by 3.',work:'30 + 34 + 26 = 90. 90 ÷ 3 = <strong>30</strong>.'},
+ {t:'num',q:'Calculate the mean number of barnacles at <strong>1.0 m</strong>, leaving out the anomaly.',a:13.5,tol:0.05,unit:'barnacles',hint:'Without the anomaly there are only two values left, so divide by 2.',work:'15 + 12 = 27. 27 ÷ 2 = <strong>13.5</strong>. (Including 51 would give 26, which is misleading.)'},
+ {t:'num',q:'Calculate the <strong>range</strong> of barnacle counts at <strong>2.0 m</strong>.',a:8,tol:0,unit:'barnacles',hint:'Highest − lowest of the three quadrats at 2.0 m.',work:'46 − 38 = <strong>8</strong>.'},
+ {t:'mcq',q:'Table 2 shows that as light intensity increases, grass cover increases. Which statement is most accurate?',o:['This proves light is the only factor affecting grass','Grass cover causes light intensity to increase','Light and grass cover are correlated, but other factors that change along the transect (such as soil moisture) could also be involved','The data must be wrong'],a:2,why:'A correlation shows two things change together. It doesn’t prove cause, because other variables change along the transect too.'},
+ {t:'short',q:'Describe the pattern in barnacle abundance shown in Table 3. Use data in your answer.',model:'<p>As height above low tide increases, barnacle numbers increase from a mean of 3 at 0.5 m to a peak of 42 at 2.0 m. Above 2.0 m they decrease to 20 at 2.5 m and only 1 at 3.0 m. Barnacles are most abundant in the middle-upper shore.</p>',pts:['Numbers increase with height up to a peak','Peak identified: 2.0 m, mean 42','Numbers decrease above the peak (to 1 at 3.0 m)','Quotes data with heights']}
+],
+ext:[
+ {t:'long',marks:6,q:'Plan a field investigation to find out how the <strong>distribution of ferns</strong> changes from inside native bush to the open paddock next to it.<br><span class="plain">In your answer: describe the sampling method and justify your choice; describe which abiotic factors you would measure and how; explain how you would make your data reliable.</span>',model:'<p>I would use a <strong>belt transect</strong>. I would run a tape measure from 10 m inside the bush, across the bush edge and 15 m into the paddock. A transect is the right choice because conditions change gradually from the bush into the paddock, and sampling at regular intervals along this gradient shows how the ferns change with distance. Random quadrats could miss parts of the gradient.</p><p>I would place a 0.5 m × 0.5 m quadrat every 5 m along the tape and estimate the <strong>percentage cover</strong> of ferns, because individual fern plants are hard to count.</p><p>At each quadrat I would measure <strong>light intensity</strong> with a light meter (lux) and <strong>soil moisture</strong> with a soil moisture meter (%), because these change between bush and paddock and could affect ferns. I would take all light readings close together in time so cloud cover doesn’t affect the comparison.</p><p>To make the data reliable I would take three abiotic readings at each quadrat and calculate a mean, use the same quadrat size every time, and repeat the whole transect two more times in different places along the bush edge, then calculate a mean fern cover for each distance.</p>',pts:['Chooses a (belt) transect from inside the bush into the paddock','Justifies it: conditions change gradually / gradient','Quadrats at regular intervals, recording % cover (or counts) of ferns','Names at least one abiotic factor with correct equipment and unit','Measures abiotic factors at each quadrat, at about the same time','Repeats (readings and/or transects) and calculates means for reliability']},
+ {t:'long',marks:6,pre:T.t2,q:'Using the data in Table 2, explain how abiotic factors influence the distribution and abundance of <strong>ferns</strong> and <strong>grass</strong> along the transect.',model:'<p>Fern cover is highest inside the bush (65% at 0 m) and decreases to 0% at 20 m and 25 m in the paddock. Grass shows the opposite pattern, increasing from 5% at 0 m to 95% at 25 m.</p><p>Light intensity increases from 800 lux under the canopy to 22 000 lux in the paddock. Grass needs a lot of light to photosynthesise and grow quickly, so it is most abundant where light is high. Under the canopy there is too little light for much grass to grow.</p><p>Soil moisture decreases from 48% to 20% along the transect. Ferns grow best in moist, shaded conditions. In the open paddock, the higher light and drier soil mean fern fronds lose water and dry out, so ferns can’t survive there. Where grass grows well it may also out-compete any ferns for space and light (a biotic factor).</p><p>The data shows correlations between these abiotic factors and plant cover. It doesn’t prove which factor is the cause, because light and soil moisture change together.</p>',pts:['Describes fern pattern with data (e.g. 65% → 0%)','Describes grass pattern with data (e.g. 5% → 95%)','Links grass to increasing light, with data, and explains via photosynthesis','Links ferns to moist/shaded conditions, with soil moisture data, and explains drying out','Mentions a biotic factor such as competition between grass and ferns','Recognises correlation does not prove cause / both factors change together']},
+ {t:'long',marks:6,pre:T.t3,q:'Using Table 3, explain the <strong>distribution of barnacles</strong> on the rocky shore. Refer to <strong>both abiotic and biotic</strong> factors, and use calculated means as evidence.',model:'<p>Barnacles are most abundant on the middle-upper shore, with a mean of 42 per quadrat at 2.0 m. There are very few on the lower shore (mean 3 at 0.5 m) and almost none at the top (mean 1 at 3.0 m). At 1.0 m the mean is 13.5 once the anomaly of 51 is left out.</p><p><strong>Top of the shore (abiotic):</strong> high on the shore the rocks are out of the water for a long time at low tide. Barnacles there risk drying out and overheating in the sun, and they can only filter-feed when covered by water, so they have less time to feed. Few survive above 2.5 m.</p><p><strong>Bottom of the shore (biotic):</strong> low on the shore conditions are less harsh, but there are more predators such as whelks and sea stars that eat barnacles. There is also competition for space on the rock with mussels and seaweeds. These biotic factors keep barnacle numbers low at 0.5 m.</p><p>At around 2.0 m the barnacles are covered by water often enough to feed, but are high enough to avoid most predators and competitors, so this is where they are most abundant.</p>',pts:['Describes the distribution, with the peak at 2.0 m (mean 42)','Uses the corrected mean of 13.5 at 1.0 m, or notes the anomaly','Abiotic: drying out / heat / exposure time limits barnacles high on the shore','Links exposure to feeding (filter-feed only when covered)','Biotic: predation (e.g. whelks) on the lower shore','Biotic: competition for space with mussels or seaweeds']}
+]};
+
+/* ---------- rendering ---------- */
+const auto=new Map(); const selfM=new Map(); const autoPhase={};
+const tagName={mcq:'Multiple choice',num:'Calculation',short:'Short answer',long:'Extended answer'};
+function updateScore(){
+  let n=0,t=0; const per={};
+  for(const [id,v] of auto){const p=id.split('-')[0];per[p]=per[p]||[0,0];per[p][1]++;t++;if(v){n++;per[p][0]++}}
+  $('#scoreN').textContent=n; $('#scoreT').textContent=t;
+  document.querySelectorAll('.phase-score').forEach(el=>{const p=per[el.dataset.phase];
+    let txt=p?`Auto-marked ${p[0]}/${p[1]}`:'';
+    let s=0,st=0;for(const [id,v] of selfM){if(id.startsWith(el.dataset.phase+'-')){s+=v[0];st+=v[1]}}
+    if(st) txt+=` · self-marked ${s}/${st}`;
+    el.textContent=txt});
+}
+function parseNum(v){v=String(v).trim().replace(/[\s,]/g,'').replace(/(%|lux|m²|m)$/i,'');return v===''?NaN:Number(v)}
+
+function render(phase){
+  const box=$('#q-'+phase);
+  Q[phase].forEach((q,i)=>{
+    const id=`${phase}-${i+1}`; const el=document.createElement('article');
+    el.className='q type-'+q.t; el.id=id;
+    let h=`<div class="q-head"><span class="qn">Q${i+1}</span><span class="tag t-${q.t}">${tagName[q.t]}${q.marks?' · '+q.marks+' marking points':''}</span></div>`;
+    if(q.pre){h+=q.pre}
+    h+=`<p class="q-text">${q.q}</p>`;
+    if(q.t==='mcq'){
+      auto.set(id,false);
+      h+=`<div class="opts">${q.o.map((o,k)=>`<button type="button" class="opt" data-k="${k}"><span class="l">${'ABCD'[k]}</span><span>${o}</span></button>`).join('')}</div><div class="out"></div>`;
+      el.innerHTML=h;
+      const out=el.querySelector('.out'), btns=[...el.querySelectorAll('.opt')];
+      btns.forEach(b=>b.addEventListener('click',()=>{
+        const k=+b.dataset.k, ok=k===q.a;
+        btns.forEach(x=>x.disabled=true);
+        b.classList.add(ok?'right':'wrong'); if(!ok) btns[q.a].classList.add('right');
+        auto.set(id,ok); updateScore();
+        out.innerHTML=`<div class="fb ${ok?'ok':'no'}"><strong class="${ok?'ok':'no'}">${ok?'Correct.':'Not quite. The answer is '+'ABCD'[q.a]+'.'}</strong><span>${q.why}</span></div><div class="row" style="margin-top:.6rem"><button type="button" class="btn ghost again">Try again</button></div>`;
+        out.querySelector('.again').addEventListener('click',()=>{btns.forEach(x=>{x.disabled=false;x.classList.remove('right','wrong')});out.innerHTML='';auto.set(id,false);updateScore()});
+      }));
+    } else if(q.t==='num'){
+      auto.set(id,false);
+      h+=`<div class="row"><label class="sr" for="in-${id}" hidden>Answer</label><input class="num" id="in-${id}" inputmode="decimal" autocomplete="off" placeholder="Answer"><span class="unit">${q.unit||''}</span><button type="button" class="btn chk">Check</button><button type="button" class="btn ghost wk" hidden>Show working</button></div><div class="out"></div><div class="work" hidden>${q.work}</div>`;
+      el.innerHTML=h;
+      const inp=el.querySelector('input'), out=el.querySelector('.out'), wk=el.querySelector('.wk'), work=el.querySelector('.work');
+      const check=()=>{
+        const v=parseNum(inp.value);
+        if(isNaN(v)){out.innerHTML=`<div class="fb no"><span>Type a number to check your answer.</span></div>`;return}
+        const ok=Math.abs(v-q.a)<=q.tol+1e-9;
+        auto.set(id,ok); updateScore(); wk.hidden=false;
+        out.innerHTML=ok?`<div class="fb ok"><strong class="ok">Correct: ${q.a.toLocaleString('en-NZ')} ${q.unit||''}</strong></div>`:`<div class="fb no"><strong class="no">Not yet.</strong><span>${q.hint}</span></div>`;
+      };
+      el.querySelector('.chk').addEventListener('click',check);
+      inp.addEventListener('keydown',e=>{if(e.key==='Enter')check()});
+      wk.addEventListener('click',()=>{work.hidden=!work.hidden;wk.textContent=work.hidden?'Show working':'Hide working'});
+    } else {
+      const saved=store.get(id)||'';
+      h+=`<label for="ta-${id}" class="muted" style="font-size:.9rem">Your answer</label><textarea id="ta-${id}" placeholder="${q.t==='long'?'Plan first, then write in full sentences. Use data from the table where you can.':'Write your answer here.'}">${esc(saved)}</textarea>
+      <div class="row"><button type="button" class="btn rev">Check against model answer</button><span class="warn" hidden>Have a go first. Writing your own answer is how you learn it. Click again to see the model answer anyway.</span></div>
+      <div class="model" hidden><h4>Model answer</h4><div class="ans">${q.model}</div><h4>Tick the points you included</h4><ul class="pts">${q.pts.map((p,k)=>`<li><label><input type="checkbox" data-k="${k}"><span>${p}</span></label></li>`).join('')}</ul><span class="selfscore">0 / ${q.pts.length}</span></div>`;
+      el.innerHTML=h;
+      const ta=el.querySelector('textarea'), rev=el.querySelector('.rev'), warn=el.querySelector('.warn'), model=el.querySelector('.model'), ss=el.querySelector('.selfscore');
+      ta.addEventListener('input',()=>store.set(id,ta.value));
+      let warned=false;
+      rev.addEventListener('click',()=>{
+        if(!ta.value.trim() && !warned && model.hidden){warned=true;warn.hidden=false;return}
+        warn.hidden=true; model.hidden=!model.hidden; rev.textContent=model.hidden?'Check against model answer':'Hide model answer';
+        if(!model.hidden && !selfM.has(id)){selfM.set(id,[0,q.pts.length]);updateScore()}
+      });
+      el.querySelectorAll('.pts input').forEach(cb=>cb.addEventListener('change',()=>{
+        const n=el.querySelectorAll('.pts input:checked').length; ss.textContent=`${n} / ${q.pts.length}`;
+        selfM.set(id,[n,q.pts.length]); updateScore();
+      }));
+    }
+    box.appendChild(el);
+  });
+}
+['p1','p2','p3','p4','ext'].forEach(render);
+
+/* anchors for "see table" links (first occurrence of each table) */
+['t1','t2','t3'].forEach(k=>{const cap=[...document.querySelectorAll('table.data caption strong')].find(s=>s.textContent==='Table '+k[1]+'.');if(cap){cap.closest('.tablebox').id=k+'-anchor'}});
+updateScore();
+
+/* ---------- mean & range trainer ---------- */
+let cur=[], streak=0;
+function newSet(){
+  cur=Array.from({length:6},()=>Math.floor(Math.random()*21));
+  $('#genCounts').innerHTML=cur.map(v=>`<span>${v}</span>`).join('');
+  $('#genMean').value='';$('#genRange').value='';$('#genFb').innerHTML='';
+}
+$('#genNew').addEventListener('click',newSet);
+$('#genCheck').addEventListener('click',()=>{
+  const total=cur.reduce((a,b)=>a+b,0), mean=total/6, range=Math.max(...cur)-Math.min(...cur);
+  const m=parseNum($('#genMean').value), r=parseNum($('#genRange').value);
+  if(isNaN(m)||isNaN(r)){$('#genFb').innerHTML='<div class="fb no"><span>Enter both a mean and a range.</span></div>';return}
+  const mOk=Math.abs(m-Math.round(mean*10)/10)<0.051, rOk=r===range;
+  const meanTxt=Number.isInteger(mean)?mean:mean.toFixed(1);
+  if(mOk&&rOk){streak++}else{streak=0}
+  $('#genStreak').textContent=streak?`Streak: ${streak}`:'';
+  $('#genFb').innerHTML=`<div class="fb ${mOk&&rOk?'ok':'no'}"><span><strong class="${mOk?'ok':'no'}">Mean ${mOk?'✓':'✗'}</strong> Total = ${cur.join(' + ')} = ${total}. ${total} ÷ 6 = ${meanTxt}</span><span><strong class="${rOk?'ok':'no'}">Range ${rOk?'✓':'✗'}</strong> ${Math.max(...cur)} − ${Math.min(...cur)} = ${range}</span>${mOk&&rOk?'<span>Press “New data” for another set.</span>':''}</div>`;
+});
+newSet();
+})();
+</script>
+</body>
+</html>
